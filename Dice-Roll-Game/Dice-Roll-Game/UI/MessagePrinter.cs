@@ -6,7 +6,6 @@
         public static void Welcome()
         {
             Console.WriteLine("*************** Dice Roll Game ***************");
-            Console.WriteLine("Dice rolled. Guess what number it shows in 3 tries.");
             Console.WriteLine("====================================================");
         }
 
@@ -18,6 +17,16 @@
         public static void PrintInvalidInput()
         {
             Console.WriteLine("Input is invalid. Enter a valid number.");
+        }
+
+        public static void PrintOutOfRangeInput()
+        {
+            Console.WriteLine("Input is out of range. it must be from 1 to 6.");
+        }
+
+        public static void PrintNumberOfRemainingAttempts(int remainingTries)
+        {
+            Console.WriteLine($"{remainingTries}  attempts remaining!\n");
         }
 
         public static void PrintWrongNumber()
@@ -38,6 +47,11 @@
         public static void PrintFinishGame()
         {
             Console.WriteLine("*************** The Game is finished ***************");
+        }
+
+        public static void AskForNumberOfTries()
+        {
+            Console.WriteLine("Enter number of tries (A Valid number from 1 to 4): ");
         }
     }
 }

@@ -7,41 +7,46 @@ namespace Dice_Roll_Game.Services
     internal class GameService
     {
         private Game _game;
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
 
         public void StartGame()
         {
             MessagePrinter.Welcome();
-            int tries = InputHandler.GetNumberOfTries();
-            _game = new Game(tries);
-            GenerateRandomNum();    
 
             do
             {
-                int guess = InputHandler.GetInput();
+                int tries = InputHandler.GetNumberOfTries();
+                _game = new Game(tries);
+                GenerateRandomNum();
 
-                if (IsGuessTrue(guess))
+                do
                 {
-                    MessagePrinter.PrintWin();
-                    break;
+                    int guess = InputHandler.GetInput();
+
+                    if (IsGuessTrue(guess))
+                    {
+                        MessagePrinter.PrintWin();
+                        break;
+                    }
+
+                    _game.DecreaseNumOfAttempts();
+                    MessagePrinter.PrintNumberOfRemainingAttempts(_game.NumOfAttempts);
+
+
+                    if (IsNumOfAttemptsZero())
+                    {
+                        MessagePrinter.PrintLose();
+                        Console.WriteLine($"The correct number is: {_game.RandomNum}");
+                        break;
+                    }
+
+
                 }
+                while (true);
 
-                _game.DecreaseNumOfAttempts();
-                MessagePrinter.PrintNumberOfRemainingAttempts(_game.NumOfAttempts);
-
-
-                if (IsNumOfAttemptsZero())
-                {
-                    MessagePrinter.PrintLose();
-                    Console.WriteLine($"The correct number is: {_game.RandomNum}");
-                    break;
-                }
-
-
+                MessagePrinter.PrintFinishGame();
             }
-            while (true);
-
-            MessagePrinter.PrintFinishGame();
+            while (InputHandler.AskToPlayAgain());
         }
 
         private void GenerateRandomNum()

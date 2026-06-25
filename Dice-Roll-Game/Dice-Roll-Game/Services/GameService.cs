@@ -6,17 +6,15 @@ namespace Dice_Roll_Game.Services
     // This class handles the logic
     internal class GameService
     {
-        private Game game;
+        private Game _game;
+        private Random _random = new Random();
 
-        public GameService()
-        {
-            game = new Game();
-        }
-        
         public void StartGame()
         {
             MessagePrinter.Welcome();
-            GenerateRandomNum();
+            int tries = InputHandler.GetNumberOfTries();
+            _game = new Game(tries);
+            GenerateRandomNum();    
 
             do
             {
@@ -28,12 +26,14 @@ namespace Dice_Roll_Game.Services
                     break;
                 }
 
-                game.DecreaseNumOfAttempts();
+                _game.DecreaseNumOfAttempts();
+                MessagePrinter.PrintNumberOfRemainingAttempts(_game.NumOfAttempts);
+
 
                 if (IsNumOfAttemptsZero())
                 {
                     MessagePrinter.PrintLose();
-                    Console.WriteLine($"The correct number is: {game.RandomNum}");
+                    Console.WriteLine($"The correct number is: {_game.RandomNum}");
                     break;
                 }
 
@@ -46,15 +46,13 @@ namespace Dice_Roll_Game.Services
 
         private void GenerateRandomNum()
         {
-            Random random = new Random();
-            int maxValueOfDice = 6;
-            int randomNumber = random.Next(1, 7);
-            game.SetRandomNum(randomNumber);
+            int randomNumber = _random.Next(1, 7);
+            _game.SetRandomNum(randomNumber);
         }
 
         public bool IsGuessTrue(int guess)
         {
-            bool isGuessTrue = guess == game.RandomNum;
+            bool isGuessTrue = guess == _game.RandomNum;
 
             if (!isGuessTrue) MessagePrinter.PrintWrongNumber();
 
@@ -64,7 +62,7 @@ namespace Dice_Roll_Game.Services
 
         public bool IsNumOfAttemptsZero()
         {
-            return game.NumOfAttempts == 0;
+            return _game.NumOfAttempts == 0;
         }
 
 

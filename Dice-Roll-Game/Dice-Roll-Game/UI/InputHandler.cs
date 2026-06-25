@@ -46,5 +46,20 @@
             return tries;
         }
 
+        public static bool AskToPlayAgain()
+        {
+            string input;
+            do
+            {
+                Console.WriteLine("Play again? (y/n): ");
+                input = Console.ReadLine();
+
+                if (input == "y" || input == "Y") return true;
+                if (input == "n" || input == "N") return false;
+
+                Console.WriteLine("Invalid input. Please enter y or n.");
+            }
+            while (true);
+        }
     }
 }

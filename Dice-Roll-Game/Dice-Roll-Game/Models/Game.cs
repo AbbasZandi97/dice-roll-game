@@ -7,9 +7,9 @@
 
         public int RandomNum { get; private set; }
 
-        public Game()
+        public Game(int numberOfTries)
         {
-            NumOfAttempts = 3;
+            NumOfAttempts = numberOfTries;
         }
 
         public void SetRandomNum(int generatedNumber)
